@@ -1,4 +1,5 @@
 <html/>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -40,23 +41,34 @@
         </div>
     </div>
 
-    <audio id="piano-audio" loop>
-        <source src="https://cdn.pixabay.com/audio/2022/11/22/audio_feb6359049.mp3" type="audio/mpeg">
-    </audio>
-
     <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playBirthdayTune() {
+            const notes = [261.63, 261.63, 293.66, 261.63, 349.23, 329.63]; // Happy Birthday Notes
+            let time = audioCtx.currentTime;
+            notes.forEach((note, i) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(note, time);
+                gain.gain.setValueAtTime(0.1, time);
+                gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.5);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(time);
+                osc.stop(time + 0.5);
+                time += 0.5;
+            });
+        }
+
         function init() {
-            var audio = document.getElementById('piano-audio');
-            // محاولة التشغيل مع معالجة الأخطاء
-            var playPromise = audio.play();
+            // تشغيل النغمة المدمجة
+            playBirthdayTune();
             
-            if (playPromise !== undefined) {
-                playPromise.then(_ => {
-                    console.log("Playback started");
-                }).catch(error => {
-                    console.log("Playback failed: " + error);
-                });
-            }
+            // محاولة تشغيل الموسيقى الخارجية أيضاً كاحتياط
+            var backupAudio = new Audio('https://cdn.pixabay.com/audio/2022/11/22/audio_feb6359049.mp3');
+            backupAudio.loop = true;
+            backupAudio.play().catch(e => console.log("External audio blocked"));
 
             document.getElementById('main-screen').style.display = 'none';
             document.getElementById('celebration').style.display = 'block';
@@ -65,7 +77,6 @@
 
         function showMessage() { document.getElementById('message-overlay').style.display = 'flex'; }
         function closeMessage() { document.getElementById('message-overlay').style.display = 'none'; }
-
         function createConfetti() {
             for(let i=0; i<60; i++) {
                 let div = document.createElement('div');
@@ -80,3 +91,5 @@
     </script>
 </body>
 </html>
+
+
