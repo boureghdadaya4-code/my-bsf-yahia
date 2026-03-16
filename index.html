@@ -7,32 +7,38 @@
     <style>
         body { margin: 0; padding: 0; background: #0f172a; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: 'Poppins', sans-serif; color: white; overflow: hidden; }
         .container { text-align: center; position: relative; z-index: 2; }
-        h1 { font-size: 3rem; margin-bottom: 10px; animation: glow 2s ease-in-out infinite alternate; }
-        .sub-text { font-size: 1.5rem; color: #38bdf8; margin-bottom: 30px; }
-        .cake-container { font-size: 100px; cursor: pointer; transition: transform 0.3s; margin: 20px; }
-        #start-btn { padding: 15px 35px; font-size: 18px; border-radius: 50px; border: none; background: linear-gradient(45deg, #38bdf8, #818cf8); color: white; cursor: pointer; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4); }
+        h1 { font-size: 3rem; margin-bottom: 10px; text-shadow: 0 0 10px #38bdf8; }
+        .sub-text { font-size: 1.5rem; color: #38bdf8; margin-bottom: 20px; }
+        .cake-container { font-size: 100px; cursor: pointer; transition: transform 0.3s; }
+        
+        /* مشغل الصوت في الأسفل */
+        .audio-player {
+            position: fixed; bottom: 20px; background: rgba(255, 255, 255, 0.1);
+            padding: 10px; border-radius: 50px; backdrop-filter: blur(5px);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
         #message-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.95); z-index: 10; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
         .bsf-card { background: #1e293b; padding: 30px; border-radius: 20px; border: 1px solid #38bdf8; max-width: 450px; text-align: left; line-height: 1.8; }
-        @keyframes glow { from { text-shadow: 0 0 10px #38bdf8; } to { text-shadow: 0 0 20px #818cf8, 0 0 30px #38bdf8; } }
         .confetti { position: absolute; width: 10px; height: 10px; z-index: 1; animation: fall 3s linear infinite; }
         @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
-        /* إخفاء مشغل اليوتيوب تماماً */
-        #video-player { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
     </style>
 </head>
 <body>
 
-    <div id="video-player"></div>
-
-    <div id="main-screen" class="container">
-        <button id="start-btn" onclick="init()">Open Surprise 🎁</button>
-    </div>
-
-    <div id="celebration" style="display: none;" class="container">
+    <div class="container">
         <h1>Happy Birthday</h1>
         <div class="sub-text">My bsf Yahia ✨</div>
         <div class="cake-container" onclick="showMessage()">🎂</div>
-        <p>Click the cake!</p>
+        <p>Click the cake for a message!</p>
+    </div>
+
+    <div class="audio-player">
+        <p style="margin: 0 0 5px 0; font-size: 12px; text-align: center;">Play Birthday Music 🎵</p>
+        <audio controls loop>
+            <source src="https://cdn.pixabay.com/audio/2022/11/22/audio_feb6359049.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
     </div>
 
     <div id="message-overlay">
@@ -44,48 +50,21 @@
         </div>
     </div>
 
-    <script src="https://www.youtube.com/iframe_api"></script>
-
     <script>
-        let player;
-        // تجهيز مشغل اليوتيوب عند فتح الصفحة
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('video-player', {
-                height: '0',
-                width: '0',
-                videoId: 'K66qO_oD3yM', // فيديو بيانو هادئ لعيد الميلاد
-                playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'K66qO_oD3yM' },
-                events: { 'onReady': onPlayerReady }
-            });
-        }
-
-        function onPlayerReady(event) {
-            console.log("Music ready");
-        }
-
-        function init() {
-            // تشغيل موسيقى اليوتيوب عند الضغط
-            if (player && player.playVideo) {
-                player.playVideo();
-                player.setVolume(50); // درجة الصوت متوسطة وهادئة
-            }
-            
-            document.getElementById('main-screen').style.display = 'none';
-            document.getElementById('celebration').style.display = 'block';
+        function showMessage() { 
+            document.getElementById('message-overlay').style.display = 'flex'; 
             createConfetti();
         }
-
-        function showMessage() { document.getElementById('message-overlay').style.display = 'flex'; }
         function closeMessage() { document.getElementById('message-overlay').style.display = 'none'; }
         
         function createConfetti() {
-            for(let i=0; i<60; i++) {
+            for(let i=0; i<40; i++) {
                 let div = document.createElement('div');
                 div.className = 'confetti';
                 div.style.left = Math.random() * 100 + 'vw';
                 div.style.top = '-10px';
-                div.style.animationDelay = Math.random() * 5 + 's';
-                div.style.backgroundColor = ['#38bdf8', '#818cf8', '#f472b6', '#ffffff'][Math.floor(Math.random()*4)];
+                div.style.animationDelay = Math.random() * 3 + 's';
+                div.style.backgroundColor = ['#38bdf8', '#818cf8', '#f472b6'][Math.floor(Math.random()*3)];
                 document.body.appendChild(div);
             }
         }
