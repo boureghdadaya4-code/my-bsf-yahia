@@ -3,18 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Yahia</title>
+    <title>Happy Birthday Yahia | My BSF</title>
     <style>
-        body { margin: 0; padding: 0; background: #0f172a; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: 'Poppins', sans-serif; color: white; overflow: hidden; }
+        /* إعدادات الخلفية والخطوط */
+        body {
+            margin: 0; padding: 0;
+            background: #0f172a; /* لون ليلي أنيق */
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 100vh; font-family: 'Poppins', sans-serif; color: white; overflow: hidden;
+        }
+
         .container { text-align: center; position: relative; z-index: 2; }
-        h1 { font-size: 3rem; margin-bottom: 10px; text-shadow: 0 0 10px #38bdf8; }
-        .sub-text { font-size: 1.5rem; color: #38bdf8; margin-bottom: 20px; }
-        .cake-container { font-size: 100px; cursor: pointer; transition: transform 0.3s; }
-        .audio-player { position: fixed; bottom: 20px; background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 50px; backdrop-filter: blur(5px); border: 1px solid rgba(56, 189, 248, 0.3); }
-        #message-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.95); z-index: 10; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-        .bsf-card { background: #1e293b; padding: 30px; border-radius: 20px; border: 1px solid #38bdf8; max-width: 450px; text-align: left; line-height: 1.8; }
+
+        /* تأثير توهج النص */
+        h1 { font-size: 3.5rem; margin-bottom: 10px; animation: glow 2s ease-in-out infinite alternate; }
+        .sub-text { font-size: 1.8rem; color: #38bdf8; margin-bottom: 20px; font-weight: 300; }
+
+        /* الكعكة المتحركة */
+        .cake-container { font-size: 100px; cursor: pointer; transition: transform 0.3s; margin: 20px; display: inline-block; }
+        .cake-container:hover { transform: scale(1.1); }
+
+        /* مشغل الموسيقى في الأسفل */
+        .audio-player {
+            position: fixed; bottom: 30px; background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px; border-radius: 50px; backdrop-filter: blur(8px);
+            border: 1px solid rgba(56, 189, 248, 0.3); box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .audio-player p { margin: 0 0 8px 0; font-size: 14px; color: #38bdf8; letter-spacing: 1px; }
+
+        /* واجهة الرسالة (التي تظهر عند الضغط) */
+        #message-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.95); z-index: 10;
+            flex-direction: column; align-items: center; justify-content: center; padding: 20px;
+        }
+
+        .bsf-card {
+            background: #1e293b; padding: 35px; border-radius: 25px; border: 1px solid #38bdf8;
+            max-width: 500px; text-align: left; line-height: 1.8; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: slideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* تأثيرات الحركة (Animations) */
+        @keyframes glow { from { text-shadow: 0 0 10px #38bdf8; } to { text-shadow: 0 0 25px #818cf8, 0 0 35px #38bdf8; } }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        /* تأثير القصاصات المتساقطة (Confetti) */
         .confetti { position: absolute; width: 10px; height: 10px; z-index: 1; animation: fall 3s linear infinite; }
         @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+
+        button.close-btn {
+            background: #38bdf8; border: none; color: #0f172a; padding: 10px 25px;
+            border-radius: 10px; cursor: pointer; margin-top: 20px; font-weight: bold;
+            transition: background 0.3s;
+        }
+        button.close-btn:hover { background: #818cf8; }
     </style>
 </head>
 <body>
@@ -23,40 +67,48 @@
         <h1>Happy Birthday</h1>
         <div class="sub-text">My bsf Yahia ✨</div>
         <div class="cake-container" onclick="showMessage()">🎂</div>
-        <p>Click the cake for a message!</p>
+        <p style="opacity: 0.8;">Click the cake for your surprise!</p>
     </div>
 
-   <div class="audio-player">
-    <p style="margin: 0 0 5px 0; font-size: 14px; text-align: center; color: #38bdf8;">Play Our Music 🎵</p>
-    <audio id="myAudio" controls loop>
-        <source src="music.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-</div>
+    <div class="audio-player">
+        <p>Play Birthday Music 🎵</p>
+        <audio id="mainAudio" controls loop>
+            <source src="music.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
 
     <div id="message-overlay">
         <div class="bsf-card">
-            <h2 style="color: #38bdf8;">To my best friend Yahia,</h2>
-            <p>Happy Birthday! You're the best brother. I'm so proud of you. Let's celebrate! 🥂</p>
-            <button onclick="closeMessage()" style="background:none; border:1px solid #38bdf8; color:white; padding:5px 15px; border-radius:5px; cursor:pointer; margin-top: 15px;">Close</button>
+            <h2 style="color: #38bdf8; margin-top: 0;">To my best friend Yahia,</h2>
+            <p>Happy Birthday to the person who has been there through it all. You're not just my best friend, you're the brother I never had.</p>
+            <p>I am so incredibly proud of the person you are and everything you've achieved. Thank you for the laughs, the support, and for always being you. I'll always be here to cheer you on, no matter what.</p>
+            <p>May this year bring you as much happiness as you bring to everyone around you. Let's make this birthday unforgettable! 🥂✨</p>
+            <button class="close-btn" onclick="closeMessage()">Close</button>
         </div>
     </div>
 
     <script>
+        // إظهار الرسالة وتشغيل القصاصات
         function showMessage() { 
             document.getElementById('message-overlay').style.display = 'flex'; 
             createConfetti();
         }
-        function closeMessage() { document.getElementById('message-overlay').style.display = 'none'; }
+
+        // إغلاق الرسالة
+        function closeMessage() { 
+            document.getElementById('message-overlay').style.display = 'none'; 
+        }
         
+        // توليد قصاصات ملونة
         function createConfetti() {
-            for(let i=0; i<40; i++) {
+            for(let i=0; i<60; i++) {
                 let div = document.createElement('div');
                 div.className = 'confetti';
                 div.style.left = Math.random() * 100 + 'vw';
                 div.style.top = '-10px';
-                div.style.animationDelay = Math.random() * 3 + 's';
-                div.style.backgroundColor = ['#38bdf8', '#818cf8', '#f472b6'][Math.floor(Math.random()*3)];
+                div.style.animationDelay = Math.random() * 4 + 's';
+                div.style.backgroundColor = ['#38bdf8', '#818cf8', '#f472b6', '#ffffff'][Math.floor(Math.random()*4)];
                 document.body.appendChild(div);
             }
         }
