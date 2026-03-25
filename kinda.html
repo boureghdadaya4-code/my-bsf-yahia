@@ -1,0 +1,101 @@
+<html/>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise for Kinda ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* غيرت الألوان لدرجات الموف والوردي الهادئ لتناسب كندة */
+        :root { --accent: #cdb4db; --soft-pink: #ffafcc; --bg: #f8f9fa; }
+        body { margin: 0; padding: 0; background: var(--bg); font-family: 'Poppins', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+
+        #stage1 { text-align: center; cursor: pointer; z-index: 5; }
+        .tap-text { color: var(--soft-pink); font-weight: bold; font-size: 1.5rem; animation: pulse 1.5s infinite; text-shadow: 1px 1px 5px rgba(0,0,0,0.05); }
+        
+        .heart-float { position: absolute; font-size: 30px; animation: floatUp 2s ease-out forwards; pointer-events: none; }
+
+        #stage2, #stage3, #stage4 { display: none; position: fixed; text-align: center; z-index: 10; }
+        #stage2 { background: white; padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 2px solid var(--accent); }
+        .next-btn { background: var(--soft-pink); color: white; border: none; padding: 12px 25px; border-radius: 15px; margin-top: 15px; cursor: pointer; font-weight: bold; }
+        
+        .loader-bar { width: 250px; height: 10px; background: #eee; border-radius: 10px; overflow: hidden; margin-top: 15px; }
+        .progress { width: 0%; height: 100%; background: var(--accent); transition: width 0.1s linear; }
+
+        #stage4 { width: 85%; max-width: 450px; height: 75vh; background: white; padding: 35px; border-radius: 25px; overflow-y: auto; text-align: left; border: 1px solid #eee; }
+        
+        @keyframes floatUp { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-350px) scale(1.5); opacity: 0; } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    </style>
+</head>
+<body onclick="createHearts(event)">
+
+    <div id="stage1">
+        <div class="tap-text">Tap to send love to Kinda! ✨💖</div>
+        <button class="next-btn" style="margin-top:25px;" onclick="event.stopPropagation(); showPopup()">For you Kinda..</button>
+    </div>
+
+    <div id="stage2">
+        <h2 style="color:var(--soft-pink); font-family: 'Dancing Script', cursive; font-size: 2.5rem;">Happy Birthday Kinda! 🎂</h2>
+        <p style="color: #777;">I have a small message for my bestie...</p>
+        <button class="next-btn" onclick="startLoading()">Open Message</button>
+    </div>
+
+    <div id="stage3">
+        <div style="color: var(--accent); font-weight: bold;">Loading some memories...</div>
+        <div class="loader-bar"><div class="progress" id="myBar"></div></div>
+    </div>
+
+    <div id="stage4">
+        <h1 style="font-family: 'Dancing Script', cursive; color: var(--soft-pink); text-align: center; font-size: 2.8rem;">To My Dear Kinda ✨</h1>
+        <div style="line-height: 2; color: #555; white-space: pre-line; font-size: 1rem;">
+            Happy Birthday to my amazing best friend, Kinda! 💖
+
+            On this special day, I want to tell you how much your friendship means to me. You are a kind, beautiful, and wonderful soul, and I am so lucky to have you as my sister by heart.
+
+            I hope this year brings you all the joy and success you deserve. May all your dreams come true, and may your smile never fade away.
+
+            No matter where life takes us, remember that I'll always be here for you, to support you and share every happy moment with you.
+
+            Enjoy your day to the fullest, Queen! You deserve the world. 👑✨
+
+            Love you always! 🎂🎈
+        </div>
+    </div>
+
+    <script>
+        function createHearts(e) {
+            const symbols = ['❤️', '✨', '💖', '🌸']; // أضفت نجوم وأزهار لكندة
+            for(let i=0; i<6; i++) {
+                let heart = document.createElement('div');
+                heart.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+                heart.className = 'heart-float';
+                heart.style.left = (e.clientX + (Math.random()*60-30)) + 'px';
+                heart.style.top = e.clientY + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 2000);
+            }
+        }
+
+        function showPopup() {
+            document.getElementById('stage1').style.display = 'none';
+            document.getElementById('stage2').style.display = 'block';
+        }
+
+        function startLoading() {
+            document.getElementById('stage2').style.display = 'none';
+            document.getElementById('stage3').style.display = 'block';
+            let bar = document.getElementById("myBar");
+            let width = 0;
+            let id = setInterval(() => {
+                if (width >= 100) { 
+                    clearInterval(id); 
+                    document.getElementById('stage3').style.display = 'none'; 
+                    document.getElementById('stage4').style.display = 'block'; 
+                }
+                else { width++; bar.style.width = width + '%'; }
+            }, 35); // أبطأ قليلاً ليعطي تشويق أكثر
+        }
+    </script>
+</body>
+</html>
