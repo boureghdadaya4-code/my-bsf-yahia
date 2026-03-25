@@ -4,85 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Surprise for Yahia</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
-        body {
-            margin: 0; padding: 0;
-            background-color: #fce4ec; /* لون وردي هادئ جداً للملف الشخصي */
-            display: flex; justify-content: center; align-items: center;
-            height: 100vh; font-family: 'Poppins', sans-serif;
-        }
+        :root { --pink: #ff85a1; --bg: #fdf2f2; }
+        body { margin: 0; padding: 0; background: var(--bg); font-family: 'Poppins', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
 
-        /* حاوية الرسالة البيضاء المنبثقة */
-        .pop-up-card {
-            background: white;
-            width: 85%;
-            max-width: 380px;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
-            position: relative;
-            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+        /* المرحلة 1: اضغط على القلب */
+        #stage1 { text-align: center; cursor: pointer; transition: 0.3s; }
+        .main-heart { font-size: 80px; animation: beat 1s infinite; display: block; }
+        .tap-text { color: var(--pink); font-weight: bold; margin-top: 10px; font-size: 1.2rem; }
 
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            color: #ff4081;
-            font-size: 2rem;
-            margin-bottom: 15px;
-        }
+        /* المرحلة 2: النافذة المنبثقة (Happy Birthday) */
+        #stage2 { display: none; position: fixed; background: white; width: 80%; max-width: 300px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; z-index: 10; animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        #stage2 h2 { color: var(--pink); margin: 0; }
+        .next-btn { background: var(--pink); color: white; border: none; padding: 10px 20px; border-radius: 10px; margin-top: 15px; cursor: pointer; }
 
-        .message-body {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #555;
-            text-align: justify; /* لتظهر الرسالة منظمة كأنها مكتوبة بعناية */
-        }
+        /* المرحلة 3: شريط التحميل (Loading) */
+        #stage3 { display: none; text-align: center; width: 80%; max-width: 300px; }
+        .loader-bar { width: 100%; height: 10px; background: #eee; border-radius: 10px; overflow: hidden; margin-top: 10px; }
+        .progress { width: 0%; height: 100%; background: var(--pink); transition: width 0.1s linear; }
 
-        .heart-icon {
-            font-size: 30px;
-            color: #ff4081;
-            margin-bottom: 10px;
-        }
+        /* المرحلة 4: الرسالة الطويلة */
+        #stage4 { display: none; background: white; width: 85%; max-width: 450px; height: 70vh; overflow-y: auto; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); animation: slideUp 1s ease; }
+        .letter-text { line-height: 1.8; color: #444; white-space: pre-line; text-align: left; }
 
-        /* زر الإغلاق الوهمي لزيادة التأثير */
-        .close-btn {
-            position: absolute;
-            top: 15px; right: 15px;
-            color: #ddd; font-size: 18px; cursor: pointer;
-        }
-
-        /* حركات التيك توك */
-        @keyframes popIn {
-            from { transform: scale(0.5); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        .floating-hearts {
-            position: absolute; width: 100%; height: 100%; top: 0; left: 0; overflow: hidden; z-index: -1;
-        }
+        /* Animations */
+        @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        @keyframes pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="pop-up-card">
-        <div class="close-btn">✖</div>
-        <div class="heart-icon">❤️</div>
-        <h1>Happy Birthday Yahia 🎉</h1>
-        
-        <div class="message-body">
+    <div id="stage1" onclick="showPopup()">
+        <span class="main-heart">❤️</span>
+        <div class="tap-text">Tap to shoot the heart</div>
+    </div>
+
+    <div id="stage2">
+        <h2>Happy Birthday Yahia 🎉</h2>
+        <p>A special surprise is loading for you...</p>
+        <button class="next-btn" onclick="startLoading()">Click to open</button>
+    </div>
+
+    <div id="stage3">
+        <div style="color: var(--pink); margin-bottom: 5px;">Loading Effort...</div>
+        <div class="loader-bar"><div class="progress" id="myBar"></div></div>
+    </div>
+
+    <div id="stage4">
+        <h1 style="font-family: 'Dancing Script', cursive; color: var(--pink); text-align: center;">To Yahia ✨</h1>
+        <div class="letter-text">
             On your special day, I just want to wish you a very happy birthday and a wonderful year ahead. I hope your life is always full of happiness, success, and good moments.
-            <br><br>
+
             I want you to know something very important: I truly love you and I really care about you. You mean a lot to me, and I’m so grateful to have you in my life.
-            <br><br>
-            No matter what you do or go through, I will always be by your side. I will always support you in everything, and you can count on me anytime. 
-            <br><br>
-            I wish you only the best in your life. Stay strong, you deserve all the good things.
-            <br><br>
-            <b>Happy Birthday again 🎂✨</b>
+
+            No matter what you do or go through, I will always be by your side. I will always support you in everything, and you can count on me anytime. If you ever need anything, you will find me there with you, standing with you no matter what.
+
+            I wish you only the best in your life. I hope all your dreams come true and that you always find الخير (good) and happiness in your path.
+
+            Enjoy your day and stay strong, you deserve all the good things in this life.
+
+            Happy Birthday again 🎂✨
         </div>
     </div>
 
+    <script>
+        function showPopup() {
+            document.getElementById('stage1').style.display = 'none';
+            document.getElementById('stage2').style.display = 'block';
+        }
+
+        function startLoading() {
+            document.getElementById('stage2').style.display = 'none';
+            document.getElementById('stage3').style.display = 'block';
+            let elem = document.getElementById("myBar");
+            let width = 0;
+            let id = setInterval(frame, 30);
+            function frame() {
+                if (width >= 100) {
+                    clearInterval(id);
+                    showLetter();
+                } else {
+                    width++;
+                    elem.style.width = width + '%';
+                }
+            }
+        }
+
+        function showLetter() {
+            document.getElementById('stage3').style.display = 'none';
+            document.getElementById('stage4').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
