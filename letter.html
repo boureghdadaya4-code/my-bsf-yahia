@@ -3,125 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Letter for Yahia</title>
+    <title>Surprise for Yahia</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #fdf2f2; /* لون وردي خفيف جداً مثل الفيديو */
-            --text-color: #4a4a4a;
-            --accent-color: #ff85a1;
-        }
-
         body {
             margin: 0; padding: 0;
-            background-color: var(--bg-color);
-            font-family: 'Poppins', sans-serif;
+            background-color: #fce4ec; /* لون وردي هادئ جداً للملف الشخصي */
             display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; overflow-x: hidden;
+            height: 100vh; font-family: 'Poppins', sans-serif;
         }
 
-        .envelope-container {
-            width: 90%; max-width: 500px;
+        /* حاوية الرسالة البيضاء المنبثقة */
+        .pop-up-card {
             background: white;
-            padding: 40px 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            width: 85%;
+            max-width: 380px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
             position: relative;
-            animation: slideUp 1s ease-out;
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         h1 {
             font-family: 'Dancing Script', cursive;
-            color: var(--accent-color);
-            font-size: 2.5rem;
-            margin-bottom: 25px;
-            text-align: center;
+            color: #ff4081;
+            font-size: 2rem;
+            margin-bottom: 15px;
         }
 
-        .letter-content {
-            color: var(--text-color);
-            line-height: 1.8;
-            font-size: 1rem;
-            text-align: left;
-            white-space: pre-line; /* يحافظ على الفراغات بين الأسطر */
+        .message-body {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #555;
+            text-align: justify; /* لتظهر الرسالة منظمة كأنها مكتوبة بعناية */
         }
 
-        .heart-divider {
-            text-align: center;
-            margin: 20px 0;
-            color: var(--accent-color);
-            font-size: 1.5rem;
+        .heart-icon {
+            font-size: 30px;
+            color: #ff4081;
+            margin-bottom: 10px;
         }
 
-        .footer {
-            margin-top: 30px;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #999;
+        /* زر الإغلاق الوهمي لزيادة التأثير */
+        .close-btn {
+            position: absolute;
+            top: 15px; right: 15px;
+            color: #ddd; font-size: 18px; cursor: pointer;
         }
 
-        /* حركات الظهور */
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* حركات التيك توك */
+        @keyframes popIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
-        /* تأثير القلوب الصغيرة المتطايرة */
-        .floating-heart {
-            position: fixed;
-            color: var(--accent-color);
-            opacity: 0.6;
-            animation: float Up 4s linear infinite;
-            z-index: -1;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            50% { opacity: 0.6; }
-            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        .floating-hearts {
+            position: absolute; width: 100%; height: 100%; top: 0; left: 0; overflow: hidden; z-index: -1;
         }
     </style>
 </head>
 <body>
 
-    <div class="envelope-container">
+    <div class="pop-up-card">
+        <div class="close-btn">✖</div>
+        <div class="heart-icon">❤️</div>
         <h1>Happy Birthday Yahia 🎉</h1>
         
-        <div class="letter-content">
+        <div class="message-body">
             On your special day, I just want to wish you a very happy birthday and a wonderful year ahead. I hope your life is always full of happiness, success, and good moments.
-
+            <br><br>
             I want you to know something very important: I truly love you and I really care about you. You mean a lot to me, and I’m so grateful to have you in my life.
-
-            No matter what you do or go through, I will always be by your side. I will always support you in everything, and you can count on me anytime. If you ever need anything, you will find me there with you, standing with you no matter what.
-
-            I wish you only the best in your life. I hope all your dreams come true and that you always find الخير (good) and happiness in your path.
-
-            Enjoy your day and stay strong, you deserve all the good things in this life.
-
-            Happy Birthday again 🎂✨
-        </div>
-
-        <div class="heart-divider">❤️❤️❤️</div>
-        
-        <div class="footer">
-            Made with love for my BSF
+            <br><br>
+            No matter what you do or go through, I will always be by your side. I will always support you in everything, and you can count on me anytime. 
+            <br><br>
+            I wish you only the best in your life. Stay strong, you deserve all the good things.
+            <br><br>
+            <b>Happy Birthday again 🎂✨</b>
         </div>
     </div>
 
-    <script>
-        // إضافة قلوب متطايرة في الخلفية لتعطي نفس إحساس الفيديو
-        function createHearts() {
-            const heart = document.createElement('div');
-            heart.className = 'floating-heart';
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (Math.random() * 10 + 10) + 'px';
-            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            document.body.appendChild(heart);
-
-            setTimeout(() => heart.remove(), 4000);
-        }
-        setInterval(createHearts, 300);
-    </script>
 </body>
 </html>
