@@ -1,0 +1,124 @@
+<html/>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My BSF Yahia ✨</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            margin: 0; padding: 0;
+            background-color: #ffe4e6; /* لون وردي لطيف مثل التيك توك */
+            font-family: 'Poppins', sans-serif;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            min-height: 100vh; text-align: center; overflow-x: hidden;
+        }
+
+        .container {
+            background: white; padding: 30px; border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(244, 114, 182, 0.2);
+            width: 90%; max-width: 400px; position: relative;
+        }
+
+        /* عنوان بخط رومانسي جميل */
+        h1 {
+            font-family: 'Dancing Script', cursive; font-size: 2.5rem;
+            color: #be123c; margin-bottom: 15px;
+        }
+
+        /* الصور الكرتونية الـ GIF اللطيفة */
+        .gif-container img {
+            width: 150px; height: 150px; margin-bottom: 20px;
+        }
+
+        p { color: #4c1d95; font-size: 1.1rem; line-height: 1.6; margin-bottom: 25px; }
+
+        /* الأزرار التفاعلية */
+        .btn-group {
+            display: flex; justify-content: center; gap: 20px; position: relative;
+        }
+
+        button {
+            padding: 12px 30px; font-size: 1rem; font-weight: bold;
+            border: none; border-radius: 50px; cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #yes-btn { background: #ec4899; color: white; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4); }
+        #yes-btn:hover { transform: scale(1.1); background: #be123c; }
+
+        #no-btn { background: #94a3b8; color: white; position: relative; }
+
+        /* قلوب متساقطة */
+        .heart {
+            position: absolute; color: #ec4899; font-size: 1.5rem;
+            animation: heartFall 3s linear infinite; z-index: 1;
+        }
+        @keyframes heartFall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="title">Do you love me? 🥺</h1>
+        
+        <div class="gif-container">
+            <img id="main-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZmdG1uejNhNm93Nmk2NjdvdGRncmQxcXRkMHJ6dDJ0MWt5N2p5diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Y8S9L98kSajmF49w4C/giphy.gif" alt="cute-gif">
+        </div>
+
+        <p id="message">To my best friend Yahia, I have a little question for you... Click Yes or No!</p>
+
+        <div class="btn-group">
+            <button id="yes-btn" onclick="sayYes()">Yes! ❤️</button>
+            <button id="no-btn" onmouseover="moveNo()" onclick="moveNo()">No 😢</button>
+        </div>
+    </div>
+
+    <script>
+        // زر الـ "No" يهرب عند محاولة الضغط عليه! (مثل الترند)
+        function moveNo() {
+            const noBtn = document.getElementById('no-btn');
+            const container = document.querySelector('.container');
+            
+            // تحديد حدود الحركة داخل الصندوق الأبيض
+            const maxX = container.clientWidth - noBtn.clientWidth - 20;
+            const maxY = container.clientHeight - noBtn.clientHeight - 20;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        // عند الضغط على "Yes" تتغير الرسالة والصورة وتتساقط القلوب
+        function sayYes() {
+            document.getElementById('title').innerText = "I Knew It! 🥰🎉";
+            document.getElementById('message').innerHTML = "You are the best brother and friend in the world, Yahia! ❤️<br><br>Let's make this year amazing together! 🥂";
+            
+            // تغيير الصورة لصورة احتفال
+            document.getElementById('main-gif').src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Y5bmR5OW9mYXFubzE3eDhyMGxpdDdrbjYxa2V4NGh6ZnQ1d3NnaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/K97ZMTpX6sp9e/giphy.gif";
+            
+            document.getElementById('no-btn').style.display = 'none';
+            document.getElementById('yes-btn').style.display = 'none';
+
+            // تشغيل القلوب
+            setInterval(createHearts, 100);
+        }
+
+        function createHearts() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '-10px';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(heart);
+
+            setTimeout(() => { heart.remove(); }, 3000);
+        }
+    </script>
+</body>
+</html>
